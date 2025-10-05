@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Consult a Vet - PetAdopt</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-lg lavender-gradient">
+      <div class="container"><a class="navbar-brand fw-bold fs-3" href="index.html">🐾 PetAdopt</a></div>
+    </nav>
+
+    <div class="container my-5">
+        <!-- STEP 1: FIND A VET -->
+        <div id="findVetSection" class="col-md-8 mx-auto card p-4 shadow mb-5">
+            <h2 class="text-center fw-bold mb-4">Find a Vet Near You</h2>
+            <div class="input-group">
+                <input type="text" id="cityInput" class="form-control" placeholder="Enter your city (e.g., Mumbai, Delhi)...">
+                <button id="findVetBtn" class="btn btn-gradient">Find Vets</button>
+            </div>
+            <!-- Vets will be displayed here -->
+            <div id="doctorList" class="mt-4"></div>
+        </div>
+
+        <!-- STEP 2: BOOK CONSULTATION (Initially Hidden) -->
+        <div id="bookingSection" class="col-md-8 mx-auto card p-4 shadow" style="display: none;">
+            <h2 class="text-center fw-bold mb-4">Book Consultation</h2>
+            <p>You are booking with: <strong id="doctorNameDisplay"></strong></p>
+            <!-- This is a simplified version of your old form -->
+            <form id="consultForm">
+                <textarea id="problem" class="form-control mb-3" rows="3" placeholder="Describe your pet's medical problem..." required></textarea>
+                <input type="date" id="date" class="form-control mb-3" required>
+                <input type="time" id="time" class="form-control mb-3" required min="09:00" max="21:00">
+                <button type="submit" class="btn btn-gradient w-100">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add the Thank You page link for reuse -->
+<!-- Replace your old script with this new one -->
+<!-- **** REPLACE YOUR OLD SCRIPT WITH THIS FINAL VERSION **** -->
+<script>
+    // Get all the elements we will need to work with
+    const findVetBtn = document.getElementById('findVetBtn');
+    const cityInput = document.getElementById('cityInput');
+    const doctorList = document.getElementById('doctorList');
+    const findVetSection = document.getElementById('findVetSection');
+    const bookingSection = document.getElementById('bookingSection');
+    const doctorNameDisplay = document.getElementById('doctorNameDisplay');
+    const consultForm = document.getElementById('consultForm');
+    const dateInput = document.getElementById('date');
+    const timeInput = document.getElementById('time');
+
+    // --- LOGIC GROUP 1: DATE & TIME VALIDATION ---
+
+    // This runs once the page is fully loaded to set the minimum date
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        dateInput.min = `${year}-${month}-${day}`;
+    });
+
+    // --- LOGIC GROUP 2: FINDING A VET ---
+
+    // This runs when the user clicks the "Find Vets" button
+    findVetBtn.addEventListener('click', async () => {
+        const city = cityInput.value.trim();
+        if (!city) {
+            alert('Please enter a city.');
+            return;
+        }
+        doctorList.innerHTML = '<p>Searching for vets...</p>';
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/doctors?city=${city}`);
+            if (!response.ok) throw new Error('Network response failed');
+            const doctors = await response.json();
+
+            doctorList.innerHTML = '';
+            if (doctors.length === 0) {
+                doctorList.innerHTML = '<p class="text-muted">No vets found in this city.</p>';
+            } else {
+                doctors.forEach(doctor => {
+                    doctorList.innerHTML += `
+                        <div class="card mb-2">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">${doctor.name}</h5>
+                                    <p class="card-text text-muted">${doctor.specialization} - ${doctor.experience} years exp.</p>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary" onclick="showBookingForm('${doctor.name}')">Book</button>
+                            </div>
+                        </div>`;
+                });
+            }
+        } catch (error) {
+            doctorList.innerHTML = '<p class="text-danger">Could not fetch doctors.</p>';
+            console.error("Fetch error:", error);
+        }
+    });
+
+    // This function is called from the "Book" button in the list
+    function showBookingForm(doctorName) {
+        doctorNameDisplay.textContent = doctorName;
+        findVetSection.style.display = 'none';
+        bookingSection.style.display = 'block';
+    }
+
+    // --- LOGIC GROUP 3: BOOKING SUBMISSION ---
+
+    // This runs when the user submits the final booking form
+    consultForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        // Time Validation
+        const selectedTime = timeInput.value;
+        const selectedHour = parseInt(selectedTime.split(':')[0]);
+        if (selectedHour < 9 || selectedHour >= 21) {
+            alert("Please select an appointment time between 9:00 AM and 9:00 PM.");
+            return;
+        }
+
+        // User Login Check
+        const user = JSON.parse(localStorage.getItem("petAdoptUser"));
+        if (!user) {
+            alert("Please log in to confirm your booking.");
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        // This feature does not save to the database yet, it just saves to localStorage
+        // You would create a new Schema and API endpoint for this in the future
+        const bookingData = {
+            doctor: doctorNameDisplay.textContent,
+            problem: document.getElementById('problem').value,
+            date: dateInput.value,
+            time: timeInput.value,
+            userName: user.name
+        };
+        
+        localStorage.setItem("lastConsultation", JSON.stringify(bookingData));
+        window.location.href = "thankyou-consultation.html";
+    });
+</script>
+</body>
+</html>

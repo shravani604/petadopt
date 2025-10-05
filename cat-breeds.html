@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cat Breeds - PetAdopt</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    .lavender-gradient { background: linear-gradient(90deg, #6a11cb, #2575fc); }
+    .pet-card { border-radius: 15px; overflow: hidden; box-shadow: 0 6px 15px rgba(0,0,0,0.1); transition: 0.3s; display: flex; flex-direction: column; height: 100%; }
+    .pet-card:hover { transform: scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+    .pet-card img { width: 100%; height: 220px; object-fit: cover; display: block; border-top-left-radius: 15px; border-top-right-radius: 15px; }
+    .card-body { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .btn-gradient { background: linear-gradient(90deg, #6a11cb, #2575fc); color: white; border-radius: 25px; padding: 8px 16px; border: none; }
+    .btn-gradient:hover { background: linear-gradient(90deg, #2575fc, #6a11cb); }
+    .search-box { max-width: 500px; margin: auto; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-lg lavender-gradient">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-3" href="index.html">🐾 PetAdopt</a>
+  </div>
+</nav>
+
+<!-- Search & Filter -->
+<section class="py-4 bg-light">
+  <div class="container">
+    <div class="row g-2 justify-content-center">
+      <div class="col-md-5">
+        <input type="text" id="searchInput" class="form-control shadow-sm" placeholder="Search for a cat...">
+      </div>
+      <div class="col-md-3">
+        <select id="breedFilter" class="form-select shadow-sm">
+          <option value="">All Breeds</option>
+          <option value="Persian">Persian</option>
+          <option value="Siamese">Siamese</option>
+          <option value="Maine Coon">Maine Coon</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cat Breeds -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-4">Available Cats for Adoption</h2>
+    <div class="row g-4" id="petList">
+
+      <!-- Persian -->
+      <div class="col-md-4 pet-item" data-breed="Persian">
+        <div class="pet-card">
+          <img src="assets/images/Persian-cat-3.webp" alt="Luna">
+          <div class="p-3 card-body">
+            <div>
+              <h5 class="fw-bold pet-name">Luna</h5>
+              <p class="mb-2"><strong>Breed:</strong> Persian</p>
+              <p class="mb-3">Gentle and affectionate Persian cat, perfect for calm homes.</p>
+            </div>
+            <a href="cat-details.html" 
+               class="btn btn-gradient w-100 view-details"
+               data-name="Luna"
+               data-breed="Persian"
+               data-age="3 years"
+               data-gender="Female"
+               data-allergies="None"
+               data-description="Luna is a calm and affectionate Persian cat who enjoys lounging in sunny spots."
+               data-image="assets/images/Persian-cat-3.webp"
+               data-status="Available"
+               data-gallery='["assets/images/Persian-cat-3.webp","assets/images/persian2.jpg","assets/images/persian3.jpg"]'>View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Siamese -->
+      <div class="col-md-4 pet-item" data-breed="Siamese">
+        <div class="pet-card">
+          <img src="assets/images/siamese.jpg" alt="Milo">
+          <div class="p-3 card-body">
+            <div>
+              <h5 class="fw-bold pet-name">Milo</h5>
+              <p class="mb-2"><strong>Breed:</strong> Siamese</p>
+              <p class="mb-3">Intelligent and social, enjoys playing with people.</p>
+            </div>
+            <a href="cat-details.html" 
+               class="btn btn-gradient w-100 view-details"
+               data-name="Milo"
+               data-breed="Siamese"
+               data-age="2 years"
+               data-gender="Male"
+               data-allergies="None"
+               data-description="Milo is an intelligent Siamese who loves interacting with people and playing games."
+               data-image="assets/images/siamese.jpg"
+               data-status="Available"
+               data-gallery='["assets/images/siamese.jpg","assets/images/siamese2.jpg","assets/images/siamese3.jpg"]'>View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Maine Coon -->
+      <div class="col-md-4 pet-item" data-breed="Maine Coon">
+        <div class="pet-card">
+          <img src="assets/images/maine-coon.jpg" alt="Bella">
+          <div class="p-3 card-body">
+            <div>
+              <h5 class="fw-bold pet-name">Bella</h5>
+              <p class="mb-2"><strong>Breed:</strong> Maine Coon</p>
+              <p class="mb-3">Large and friendly, known for its dog-like personality.</p>
+            </div>
+            <a href="cat-details.html" 
+               class="btn btn-gradient w-100 view-details"
+               data-name="Bella"
+               data-breed="Maine Coon"
+               data-age="4 years"
+               data-gender="Female"
+               data-allergies="Mild dust allergy"
+               data-description="Bella is a large and friendly Maine Coon, very loyal and affectionate, with a dog-like personality."
+               data-image="assets/images/maine-coon.jpg"
+               data-status="Adopted"
+               data-gallery='["assets/images/maine-coon.jpg","assets/images/maine2.jpg","assets/images/maine3.jpg"]'>View Details</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const breedFilter = document.getElementById("breedFilter");
+  const petItems = document.querySelectorAll(".pet-item");
+
+  function filterPets() {
+    const searchValue = searchInput.value.toLowerCase();
+    const breedValue = breedFilter.value;
+
+    petItems.forEach(item => {
+      const name = item.querySelector(".pet-name").textContent.toLowerCase();
+      const breed = item.dataset.breed;
+
+      if ((name.includes(searchValue) || breed.toLowerCase().includes(searchValue)) &&
+          (breedValue === "" || breed === breedValue)) {
+        item.style.display = "block";
+      } else {
+        item.style.display = "none";
+      }
+    });
+  }
+
+  searchInput.addEventListener("input", filterPets);
+  breedFilter.addEventListener("change", filterPets);
+
+  // Save selected cat info and navigate with query string
+  document.querySelectorAll(".view-details").forEach(btn => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault(); 
+
+      const data = this.dataset;
+
+      // Save to localStorage
+      localStorage.setItem("catName", data.name);
+      localStorage.setItem("catBreed", data.breed);
+      localStorage.setItem("catAge", data.age);
+      localStorage.setItem("catGender", data.gender);
+      localStorage.setItem("catAllergies", data.allergies);
+      localStorage.setItem("catDescription", data.description);
+      localStorage.setItem("catImage", data.image);
+      localStorage.setItem("catStatus", data.status);
+      localStorage.setItem("catGallery", data.gallery);
+
+      // Build URL with query params
+      const url = new URL("cat-details.html", window.location.href);
+      url.searchParams.set("name", data.name);
+      url.searchParams.set("breed", data.breed);
+      url.searchParams.set("age", data.age);
+      url.searchParams.set("gender", data.gender);
+      url.searchParams.set("allergies", data.allergies);
+      url.searchParams.set("description", data.description);
+      url.searchParams.set("image", data.image);
+      url.searchParams.set("status", data.status);
+      url.searchParams.set("gallery", data.gallery);
+
+      window.location.href = url.toString();
+    });
+  });
+</script>
+
+</body>
+</html>

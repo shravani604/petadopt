@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You - PetAdopt</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #f8f9fa; }
+    .thank-card { max-width: 700px; margin: 80px auto; background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .btn-home { background: linear-gradient(90deg, #6a11cb, #2575fc); color:#fff; border:none; border-radius:30px; padding:12px 25px; }
+  </style>
+</head>
+<body>
+
+<div class="thank-card text-center">
+  <h2 class="fw-bold text-success mb-3">🎉 Thank You for Booking!</h2>
+  <p class="text-muted mb-4">Your consultation has been successfully scheduled. Here are the details:</p>
+
+  <div id="consultDetails" class="mb-4 text-start"></div>
+
+  <p class="fw-bold text-primary">✅ Our team will remind you before your appointment.</p>
+
+  <a href="index.html" class="btn-home mt-3">Back to Home</a>
+</div>
+
+<!-- Replace your old script with this new one -->
+<!-- Replace your old script with this new one -->
+<!-- This is the correct script for consultation.html -->
+<!-- This is the correct script for thankyou-consultation.html -->
+<!-- This is the correct script for thankyou-consultation.html -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const details = JSON.parse(localStorage.getItem("lastConsultation"));
+        const container = document.getElementById("consultDetails");
+
+        if (details) {
+            container.innerHTML = `
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Name:</strong> ${details.firstName} ${details.lastName}</li>
+                    <li class="list-group-item"><strong>Pet Type:</strong> ${details.petType}</li>
+                    <li class="list-group-item"><strong>Package:</strong> ${details.package}</li>
+                    <li class="list-group-item"><strong>Appointment:</strong> ${details.date} at ${details.time}</li>
+                </ul>
+            `;
+        }
+    });
+</script>
+
+</body>
+</html>

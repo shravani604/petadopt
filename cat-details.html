@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cat Details - PetAdopt</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .lavender-gradient { background: linear-gradient(90deg, #6a11cb, #2575fc); }
+    .pet-profile { background: #fff; border-radius: 15px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+    .pet-image { height: 350px; width: 100%; object-fit: contain; border-radius: 15px; background-color: #f8f9fa; box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
+    .btn-gradient { background: linear-gradient(90deg, #6a11cb, #2575fc); color: white; padding: 10px 20px; border: none; border-radius: 30px; transition: 0.3s; }
+    .btn-gradient:hover { transform: scale(1.05); background: linear-gradient(90deg, #2575fc, #6a11cb); }
+    .status-badge { font-size: 0.9rem; padding: 6px 12px; border-radius: 20px; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-lg lavender-gradient">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-3" href="index.html">🐾 PetAdopt</a>
+  </div>
+</nav>
+
+<!-- Cat Profile -->
+<section class="py-5">
+  <div class="container">
+    <div class="pet-profile">
+      <div class="row align-items-center">
+
+        <!-- Pet Image -->
+        <div class="col-md-5 text-center mb-4 mb-md-0">
+          <img id="catImage" src="" alt="Pet Image" class="pet-image">
+        </div>
+
+        <!-- Pet Details -->
+        <div class="col-md-7">
+          <h2 id="catName" class="fw-bold mb-3"></h2>
+          <span id="statusBadge" class="badge bg-success status-badge mb-3"></span>
+          <p class="mb-2"><strong>Breed:</strong> <span id="catBreed"></span></p>
+          <p class="mb-2"><strong>Age:</strong> <span id="catAge"></span></p>
+          <p class="mb-2"><strong>Gender:</strong> <span id="catGender"></span></p>
+          <p class="mb-2"><strong>Allergies:</strong> <span id="catAllergies"></span></p>
+          <p class="mb-4"><strong>Description:</strong> <span id="catDescription"></span></p>
+
+          <button class="btn btn-gradient" id="adoptBtn">Adopt Me</button>
+          <button class="btn btn-secondary d-none" id="cancelBtn">Cancel Reservation</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+
+  function get(key, storageKey) {
+    return params.get(key) || localStorage.getItem(storageKey) || "";
+  }
+
+  const name = get("name", "catName");
+  const breed = get("breed", "catBreed");
+  const age = get("age", "catAge");
+  const gender = get("gender", "catGender");
+  const allergies = get("allergies", "catAllergies");
+  const description = get("description", "catDescription");
+  const image = get("image", "catImage");
+
+  document.getElementById("catName").textContent = name;
+  document.getElementById("catBreed").textContent = breed;
+  document.getElementById("catAge").textContent = age;
+  document.getElementById("catGender").textContent = gender;
+  document.getElementById("catAllergies").textContent = allergies;
+  document.getElementById("catDescription").textContent = description;
+  if (image) document.getElementById("catImage").src = image;
+
+  const adoptBtn = document.getElementById("adoptBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const statusBadge = document.getElementById("statusBadge");
+
+  // Adoption status key
+  const petKey = `status_${name}`;
+  let status = localStorage.getItem(petKey) || "Available";
+
+  function updateUI() {
+    if (status === "Available") {
+      statusBadge.textContent = "Available";
+      statusBadge.className = "badge bg-success status-badge";
+      adoptBtn.classList.remove("d-none");
+      cancelBtn.classList.add("d-none");
+      adoptBtn.disabled = false;
+    } else if (status === "Reserved") {
+      statusBadge.textContent = "Reserved";
+      statusBadge.className = "badge bg-warning text-dark status-badge";
+      adoptBtn.classList.add("d-none");
+      cancelBtn.classList.remove("d-none");
+    } else if (status === "Adopted") {
+      statusBadge.textContent = "Adopted";
+      statusBadge.className = "badge bg-danger status-badge";
+      adoptBtn.classList.remove("d-none");
+      adoptBtn.disabled = true;
+      cancelBtn.classList.add("d-none");
+    }
+  }
+
+  updateUI();
+
+  // ✅ Adopt button → check login first
+  adoptBtn.addEventListener("click", () => {
+    const user = JSON.parse(localStorage.getItem("petAdoptUser"));
+
+    if (!user) {
+      alert("⚠️ Please register or login before adopting a pet.");
+      window.location.href = "registration.html";
+      return;
+    }
+
+    // ✅ Clear any previously selected pet
+    localStorage.removeItem("selectedPet");
+
+    // ✅ Save this cat into selectedPet
+    const pet = {
+      type: "Cat",
+      name: name,
+      breed: breed,
+      age: age,
+      gender: gender,
+      image: image
+    };
+    localStorage.setItem("selectedPet", JSON.stringify(pet));
+
+    // Mark as reserved and update UI
+    status = "Reserved";
+    localStorage.setItem(petKey, status);
+    updateUI();
+
+    // Redirect to adoption form
+    window.location.href = "Adoption-form.html";
+  });
+
+  // Cancel reservation
+  cancelBtn.addEventListener("click", () => {
+    status = "Available";
+    localStorage.setItem(petKey, status);
+    updateUI();
+  });
+</script>
+
+</body>
+</html>

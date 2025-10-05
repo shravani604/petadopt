@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dogs for Adoption</title>
+<link rel="stylesheet" href="css/dogs.css">
+</head>
+<body>
+
+<header class="header">
+    <a href="index.html" class="back-btn">← Back to Home</a>
+    <h1>🐶 Dogs for Adoption</h1>
+</header>
+
+<section class="dogs-list">
+    <div class="dog-card" 
+         data-name="Buddy" 
+         data-age="2 years" 
+         data-breed="Labrador" 
+         data-allergies="None"
+         data-description="Buddy is a playful and friendly Labrador who loves fetching balls and going on walks. He is great with kids and has no allergies.">
+        <img src="assets/images/Labrador1.jpg" alt="Buddy">
+        <h3>Buddy</h3>
+    </div>
+
+    <div class="dog-card" 
+         data-name="Lucy" 
+         data-age="3 years" 
+         data-breed="Beagle" 
+         data-allergies="Dust"
+         data-description="Lucy is a curious Beagle who enjoys sniffing around and exploring. She’s affectionate and loves belly rubs. Allergic to dust.">
+        <img src="assets/images/dog2.jpg" alt="Lucy">
+        <h3>Lucy</h3>
+    </div>
+
+    <div class="dog-card" 
+         data-name="Charlie" 
+         data-age="1.5 years" 
+         data-breed="Golden Retriever" 
+         data-allergies="Chicken"
+         data-description="Charlie is a cheerful Golden Retriever who enjoys swimming and cuddles. He has a mild allergy to chicken.">
+        <img src="assets/images/dog3.jpg" alt="Charlie">
+        <h3>Charlie</h3>
+    </div>
+</section>
+
+<!-- Popup -->
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <span class="close" id="closePopup">&times;</span>
+        <h2 id="popupName"></h2>
+        <p><strong>Age:</strong> <span id="popupAge"></span></p>
+        <p><strong>Breed:</strong> <span id="popupBreed"></span></p>
+        <p><strong>Allergies:</strong> <span id="popupAllergies"></span></p>
+        <p id="popupDescription"></p>
+    </div>
+</div>
+
+<script src="js/dogs.js"></script>
+</body>
+</html>

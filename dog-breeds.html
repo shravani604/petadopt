@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Breeds - PetAdopt</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dogs.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-lg lavender-gradient">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-3" href="index.html">🐾 PetAdopt</a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="container my-5">
+    <h1 class="text-center fw-bold mb-4">Available Dogs for Adoption</h1>
+
+    <!-- Pet Listing Section -->
+    <div class="row g-4" id="petList">
+        <!-- Pet cards will be dynamically inserted here by JavaScript -->
+    </div>
+</main>
+
+<!-- **** THIS IS THE FINAL, CORRECTED SCRIPT **** -->
+<script>
+    // This function must be global so the onclick attribute can find it.
+    function viewDogDetails(id, name, breed, age, gender, allergies, description, image) {
+        localStorage.setItem("dogId", id);
+        localStorage.setItem("dogName", name);
+        localStorage.setItem("dogBreed", breed);
+        localStorage.setItem("dogAge", age);
+        localStorage.setItem("dogGender", gender);
+        localStorage.setItem("dogAllergies", allergies);
+        localStorage.setItem("dogDescription", description);
+        localStorage.setItem("dogImage", image);
+        
+        // After saving the data, navigate to the details page.
+        window.location.href = 'dog-details.html';
+    }
+
+    // This event listener runs all the main logic once the page is ready.
+    document.addEventListener("DOMContentLoaded", async () => {
+        const petListContainer = document.getElementById("petList");
+        
+        // This function builds the HTML for the pet cards.
+        function displayPets(petsToDisplay) {
+            petListContainer.innerHTML = ""; // Clear any previous content.
+            
+            if (petsToDisplay.length === 0) {
+                petListContainer.innerHTML = "<p class='text-center'>No dogs are available for adoption at this time.</p>";
+                return;
+            }
+
+            petsToDisplay.forEach(pet => {
+                // The 'onclick' calls the global function we defined above.
+                petListContainer.innerHTML += `
+                    <div class="col-md-4">
+                        <div class="pet-card">
+                            <img src="${pet.image}" alt="${pet.name}" class="pet-card-img">
+                            <div class="p-3 card-body">
+                                <div>
+                                    <h5 class="fw-bold">${pet.name}</h5>
+                                    <p class="mb-2"><strong>Breed:</strong> ${pet.breed}</p>
+                                    <p class="mb-2"><strong>From:</strong> ${pet.ngoInfo.name} (${pet.ngoInfo.location})</p>
+                                    <p class="mb-3 description">${pet.description.substring(0, 80)}...</p>
+                                </div>
+                                <button class="btn btn-gradient w-100" onclick="viewDogDetails('${pet._id}','${pet.name}','${pet.breed}','${pet.age}','${pet.gender}','${pet.allergies}','${pet.description}','${pet.image}')">
+                                   View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        }
+        
+        // This is the main logic to fetch data from the server.
+        try {
+            petListContainer.innerHTML = "<p class='text-center'>Loading pets...</p>";
+            
+            const response = await fetch('http://localhost:3000/api/pets');
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            const allPets = await response.json();
+            const dogs = allPets.filter(pet => pet.type === 'Dog'); // Filter to show only dogs.
+            
+            displayPets(dogs); // Display the dogs on the page.
+
+        } catch (error) {
+            petListContainer.innerHTML = "<p class='text-center text-danger'>Could not load pets. Please ensure the server is running correctly.</p>";
+            console.error("There was a problem fetching the pets:", error);
+        }
+    });
+</script>
+<!-- **************************************** -->
+
+</body>
+</html>

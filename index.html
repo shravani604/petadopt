@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Adoption - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-white" href="index.html"><i class="bi bi-paw-fill"></i> PetAdopt</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#categories">Categories</a></li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="adoptDropdown" role="button" data-bs-toggle="dropdown">Adopt</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="dog-breeds.html">🐶 Dogs</a></li>
+                    <li><a class="dropdown-item" href="cat-breeds.html">🐱 Cats</a></li>
+                    <li><a class="dropdown-item" href="other-breeds.html">🐾 Others</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown">Services</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="consultation.html"><i class="bi bi-hospital"></i> Consult a Vet</a></li>
+                    <li><a class="dropdown-item" href="pet-grooming.html"><i class="bi bi-scissors"></i> Pet Grooming</a></li>
+                    <li><a class="dropdown-item" href="pet-training.html"><i class="bi bi-mortarboard"></i> Pet Training</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="accessories.html"><i class="bi bi-shop"></i> Accessories</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item ms-3"><a id="userLink" class="btn btn-light btn-sm px-3" href="login.html">Login / Register</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section text-center text-white d-flex align-items-center justify-content-center" style="background: url('assets/images/hero-pet.jpg') center/cover no-repeat; height: 90vh; position: relative;">
+  <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4);"></div>
+  <div class="container position-relative">
+    <h1 class="fw-bold display-4">Re-Home and Adopt a Pet in India</h1>
+    <p class="lead">Every Pet Deserves a Good Home. #Adoptlove</p>
+    <a href="dog-breeds.html" class="btn btn-lg shadow-lg px-5 py-3 mt-3" style="background: linear-gradient(90deg, #a259ff, #6a11cb); color: white; border: none;">Adopt a pet</a>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="py-5" id="about">
+  <div class="container">
+    <div class="popup-box p-4 shadow-lg rounded animate-fade"><h2 class="fw-bold mb-3">Why You’re Here</h2><p>You’ve come to the right place if you’re looking to make a difference in an animal’s life. PetAdopt connects you with pets in need of loving homes, making adoption easy, transparent, and heartwarming.</p></div>
+    <div class="popup-box mt-4 p-4 shadow-lg rounded animate-fade-delay"><h2 class="fw-bold mb-3">About Our Pets</h2><p>Our pets come from various shelters and rescue organizations. Whether you’re looking for a playful puppy, a calm cat, or a unique pet friend, we have someone waiting for you.</p></div>
+  </div>
+</section>
+
+<!-- Pet Categories Section -->
+<section id="categories" class="py-5">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-4">Choose Your Companion</h2>
+    <div class="row g-4">
+      <div class="col-md-4"><div class="category-card shadow-lg p-4 rounded hover-scale" onclick="location.href='dog-breeds.html'"><img src="assets/images/dog.webp" alt="Dogs" class="category-img mb-3 rounded"><h4 class="fw-bold">Dogs</h4></div></div>
+      <div class="col-md-4"><div class="category-card shadow-lg p-4 rounded hover-scale" onclick="location.href='cat-breeds.html'"><img src="assets/images/cat.jpg" alt="Cats" class="category-img mb-3 rounded"><h4 class="fw-bold">Cats</h4></div></div>
+      <div class="col-md-4"><div class="category-card shadow-lg p-4 rounded hover-scale" onclick="location.href='other-breeds.html'"><img src="assets/images/otherss.jpg" alt="Other Pets" class="category-img mb-3 rounded"><h4 class="fw-bold">Others</h4></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Partner NGOs Section -->
+<section class="py-5">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-4">Our Partner Shelters</h2>
+    <p class="text-muted mb-5">Proudly working with these organizations to find loving homes for pets.</p>
+    <div class="row g-4" id="ngoListContainer">
+      <!-- NGO cards are loaded here by JavaScript -->
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-5 bg-light" id="services">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-4">Our Services</h2>
+    <p class="text-muted mb-5">We go beyond adoption to care for your pet’s well-being.</p>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6"><div class="p-4 shadow-lg rounded h-100 hover-scale"><i class="bi bi-hospital fs-1 text-primary mb-3"></i><h5 class="fw-bold">Consult a Vet</h5><p class="text-muted">Book online veterinary consultations.</p><a href="consultation.html" class="btn btn-sm btn-primary">Book Now</a></div></div>
+      <div class="col-lg-3 col-md-6"><div class="p-4 shadow-lg rounded h-100 hover-scale"><i class="bi bi-scissors fs-1 text-success mb-3"></i><h5 class="fw-bold">Pet Grooming</h5><p class="text-muted">Professional grooming services at home.</p><a href="pet-grooming.html" class="btn btn-sm btn-success">Book Now</a></div></div>
+      <div class="col-lg-3 col-md-6"><div class="p-4 shadow-lg rounded h-100 hover-scale"><i class="bi bi-mortarboard fs-1 text-warning mb-3"></i><h5 class="fw-bold">Pet Training</h5><p class="text-muted">Enroll in programs to improve behavior.</p><a href="pet-training.html" class="btn btn-sm btn-warning text-white">Book Now</a></div></div>
+      <div class="col-lg-3 col-md-6"><div class="p-4 shadow-lg rounded h-100 hover-scale"><i class="bi bi-shop fs-1 text-info mb-3"></i><h5 class="fw-bold">Pet Accessories</h5><p class="text-muted">Shop for the best toys, food, and more.</p><a href="accessories.html" class="btn btn-sm btn-info text-white">Shop Now</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-4">
+  <div class="container text-center">
+    <p class="mb-1">© 2025 PetAdopt. All Rights Reserved.</p>
+    <div><a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a><a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a><a href="#" class="text-white"><i class="bi bi-twitter"></i></a></div>
+  </div>
+</footer>
+
+<!-- Bootstrap & Custom JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+window.onload = function () {
+  // JOB #1: CHECK IF USER IS LOGGED IN
+  const user = JSON.parse(localStorage.getItem("petAdoptUser"));
+  const userLink = document.getElementById("userLink");
+  if (user) {
+    userLink.innerHTML = `<i class="bi bi-person-circle"></i> ${user.name} (Logout)`;
+    userLink.href = "#";
+    userLink.onclick = function () {
+      if (confirm("Are you sure you want to logout?")) {
+        localStorage.removeItem("petAdoptUser");
+        location.reload();
+      }
+    };
+  } else {
+    userLink.innerHTML = "Login / Register";
+    userLink.href = "login.html";
+  }
+
+  // JOB #2: FETCH AND DISPLAY THE NGOs
+  async function displayNgos() {
+    const ngoContainer = document.getElementById("ngoListContainer");
+    try {
+      const response = await fetch('http://localhost:3000/api/ngos');
+      const ngos = await response.json();
+      ngoContainer.innerHTML = "";
+      ngos.forEach(ngo => {
+        ngoContainer.innerHTML += `
+          <div class="col-md-4">
+            <a href="${ngo.website}" target="_blank" rel="noopener noreferrer" class="ngo-link">
+              <div class="p-4 shadow-lg rounded h-100 hover-scale">
+                <i class="bi bi-heart-fill fs-1 text-danger mb-3"></i>
+                <h5 class="fw-bold">${ngo.name}</h5>
+                <p class="text-muted">${ngo.location}</p>
+              </div>
+            </a>
+          </div>`;
+      });
+    } catch (error) {
+      console.error("Failed to fetch NGOs:", error);
+      ngoContainer.innerHTML = "<p>Could not load partner shelters.</p>";
+    }
+  }
+  displayNgos();
+};
+</script>
+<script src="js/script.js"></script>
+</body>
+</html>
