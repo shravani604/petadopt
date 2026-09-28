@@ -5,6 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dogs for Adoption</title>
 <link rel="stylesheet" href="css/dogs.css">
+<style>
+  /* Search Bar Styling */
+  .search-container {
+    max-width: 600px;
+    margin: 25px auto 10px auto;
+    padding: 0 15px;
+    text-align: center;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+  .search-input:focus {
+    border-color: #6a11cb;
+    box-shadow: 0 0 8px rgba(106, 17, 203, 0.25);
+  }
+  .no-results-msg {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 30px;
+    display: none;
+    width: 100%;
+  }
+</style>
 </head>
 <body>
 
@@ -13,11 +44,22 @@
     <h1>🐶 Dogs for Adoption</h1>
 </header>
 
-<section class="dogs-list">
+<!-- Search Feature Section -->
+<div class="search-container">
+    <input 
+      type="text" 
+      id="petSearchInput" 
+      class="search-input" 
+      placeholder="🔍 Search dogs by name, breed, or location..."
+    />
+</div>
+
+<section class="dogs-list" id="dogsList">
     <div class="dog-card" 
          data-name="Buddy" 
          data-age="2 years" 
          data-breed="Labrador" 
+         data-location="Mumbai"
          data-allergies="None"
          data-description="Buddy is a playful and friendly Labrador who loves fetching balls and going on walks. He is great with kids and has no allergies.">
         <img src="assets/images/Labrador1.jpg" alt="Buddy">
@@ -28,6 +70,7 @@
          data-name="Lucy" 
          data-age="3 years" 
          data-breed="Beagle" 
+         data-location="Pune"
          data-allergies="Dust"
          data-description="Lucy is a curious Beagle who enjoys sniffing around and exploring. She’s affectionate and loves belly rubs. Allergic to dust.">
         <img src="assets/images/dog2.jpg" alt="Lucy">
@@ -38,11 +81,15 @@
          data-name="Charlie" 
          data-age="1.5 years" 
          data-breed="Golden Retriever" 
+         data-location="Thane"
          data-allergies="Chicken"
          data-description="Charlie is a cheerful Golden Retriever who enjoys swimming and cuddles. He has a mild allergy to chicken.">
         <img src="assets/images/dog3.jpg" alt="Charlie">
         <h3>Charlie</h3>
     </div>
+
+    <!-- Message shown when no pets match the search -->
+    <p id="noResults" class="no-results-msg">No dogs found matching your search.</p>
 </section>
 
 <!-- Popup -->
@@ -58,5 +105,40 @@
 </div>
 
 <script src="js/dogs.js"></script>
+
+<!-- Search Filter Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('petSearchInput');
+    const cards = document.querySelectorAll('.dog-card');
+    const noResults = document.getElementById('noResults');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', function () {
+        const query = this.value.toLowerCase().trim();
+        let matchCount = 0;
+
+        cards.forEach(card => {
+          const name = (card.getAttribute('data-name') || '').toLowerCase();
+          const breed = (card.getAttribute('data-breed') || '').toLowerCase();
+          const location = (card.getAttribute('data-location') || '').toLowerCase();
+
+          // Check if search matches name, breed, or location
+          if (name.includes(query) || breed.includes(query) || location.includes(query)) {
+            card.style.display = '';
+            matchCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Show "no dogs found" message if nothing matches
+        if (noResults) {
+          noResults.style.display = matchCount === 0 ? 'block' : 'none';
+        }
+      });
+    }
+  });
+</script>
 </body>
 </html>
